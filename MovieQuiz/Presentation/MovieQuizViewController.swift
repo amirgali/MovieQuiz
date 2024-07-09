@@ -87,8 +87,8 @@ final class MovieQuizViewController: UIViewController {
     // приватный метод, который меняет цвет рамки
     // принимает на вход булевое значение и ничего не возвращает
     private func showAnswerResult(isCorrect: Bool) {
-        if isCorrect { // 1
-            correctAnswer += 1 // 2
+        if isCorrect {
+            correctAnswer += 1
         }
         imageView.layer.masksToBounds = true // даём разрешение на рисование рамки
         imageView.layer.borderWidth = 8 // толщина рамки
@@ -114,15 +114,15 @@ final class MovieQuizViewController: UIViewController {
     // приватный метод, который содержит логику перехода в один из сценариев
     // метод ничего не принимает и ничего не возвращает
     private func showNextQuestionOrResults() {
-        if currentQuestionIndex == questions.count - 1 { // 1
+        if currentQuestionIndex == questions.count - 1 {
             // идём в состояние "Результат квиза"
-            let text = "Ваш результат: \(correctAnswer)/10" // 1
-            let viewModel = QuizResultsViewModel( // 2
+            let text = "Ваш результат: \(correctAnswer)/10"
+            let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен!",
                 text: text,
                 buttonText: "Сыграть ещё раз")
-            show(quiz: viewModel) // 3
-        } else { // 2
+            show(quiz: viewModel)
+        } else {
             currentQuestionIndex += 1
             // идём в состояние "Вопрос показан"
             let nextQuestion = questions[currentQuestionIndex]
