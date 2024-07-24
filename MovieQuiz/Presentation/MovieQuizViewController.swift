@@ -112,15 +112,6 @@ final class MovieQuizViewController: UIViewController {
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
             showFinalResulst()
-            
-            //            let text = correctAnswer == questionsAmount ?
-            //            "Поздравляем, вы ответили на 10 из 10!" :
-            //            "Вы ответили на \(correctAnswer) из 10, попробуйте ещё раз!"
-            //            let viewModel = QuizResultsViewModel(
-            //                title: "Этот раунд окончен!",
-            //                text: text,
-            //                buttonText: "Сыграть ещё раз")
-            //            show(quiz: viewModel)
         } else {
             currentQuestionIndex += 1
             // идём в состояние "Вопрос показан"
@@ -163,25 +154,6 @@ final class MovieQuizViewController: UIViewController {
         
         return resultMessage
     }
-    
-    // приватный метод для показа результатов раунда квиза
-    // принимает вью модель QuizResultsViewModel и ничего не возвращает
-//    private func show(quiz result: QuizResultsViewModel) {
-        //        statisticService?.store(correct: result, total: <#T##Int#>)
-        //
-        //        let alertModel = AlertModel(
-        //            title: "Этот раунд окончен!",
-        //            message: "Ваш результат \(correctAnswer)",
-        //            buttonText: <#T##String#>,
-        //            buttonAction: { [weak self] in
-        //                self?.currentQuestionIndex = 0
-        //                self?.correctAnswer = 0
-        //                self?.questionFactory?.requestNextQuestion()
-        //            }
-        //        )
-        //
-        //        alertPresenter?.show(alertModel: alertModel)
-//    }
 }
 
 // MARK: - Extension

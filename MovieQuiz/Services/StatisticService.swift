@@ -100,6 +100,4 @@ extension StatisticServiceImpl: StatisticService {
             bestGame = currentBestGame
         }
     }
-    
-    
 }
