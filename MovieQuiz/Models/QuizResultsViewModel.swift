@@ -5,7 +5,7 @@
 //  Created by Amir on 13.07.2024.
 //
 
-import Foundation
+import UIKit
 
 // для состояния "Результат квиза"
 struct QuizResultsViewModel {
