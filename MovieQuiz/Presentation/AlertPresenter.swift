@@ -21,7 +21,6 @@ final class AlertPresenterImpl {
 
 extension AlertPresenterImpl: AlertPresenter {
     func show(alertModel: AlertModel) {
-        // попробуйте написать код создания и показа алерта с результатами
         let alert = UIAlertController(
             title: alertModel.title,
             message: alertModel.message,

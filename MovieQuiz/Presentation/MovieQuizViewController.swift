@@ -45,8 +45,6 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        //        let currentQuestion = questions[currentQuestionIndex]
-        //        guard let currentQuestion = currentQuestion else { return }
         let givenAnswer = false
         showAnswerResult(isCorrect: givenAnswer == currentQuestion?.correctAnswer)
     }
@@ -74,8 +72,6 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.cornerRadius = 20
         textLabel.text = step.text
         counterLabel.text = step.questionNumber
-        
-//        questionFactory?.requestNextQuestion()
     }
     
     // приватный метод, который меняет цвет рамки
@@ -121,7 +117,7 @@ final class MovieQuizViewController: UIViewController {
     
     private func showFinalResulst() {
         statisticService?.store(correct: correctAnswer, total: questionsAmount)
-     
+        
         let alertModel = AlertModel(
             title: "Этот раунд окончен!",
             message: makeResultMessage(),

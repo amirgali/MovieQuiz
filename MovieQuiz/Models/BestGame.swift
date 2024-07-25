@@ -14,7 +14,6 @@ struct BestGame: Codable {
 }
 
 extension BestGame: Comparable {
-    
     private var accuracy: Double {
         guard total != 0 else {
             return 0

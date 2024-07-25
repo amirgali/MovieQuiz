@@ -16,31 +16,14 @@ protocol StatisticService {
 }
 
 final class StatisticServiceImpl {
-    
     private enum Keys: String {
-        case correct, total, bestGame, gamesCount
+        case correct, total, bestGame, gamesCount, date
     }
     
-    private let userDefaults: UserDefaults
-    private let decoder: JSONDecoder
-    private let encoder: JSONEncoder
-    private let dateProvider: () -> Date
-    
-    init(
-        userDefaults: UserDefaults = .standard,
-        decoder: JSONDecoder = JSONDecoder(),
-        encoder: JSONEncoder = JSONEncoder(),
-        dateProvider: @escaping () -> Date = { Date() }
-    ) {
-        self.userDefaults = userDefaults
-        self.decoder = decoder
-        self.encoder = encoder
-        self.dateProvider = dateProvider
-    }
+    private let userDefaults: UserDefaults = .standard
 }
 
 extension StatisticServiceImpl: StatisticService {
-    
     var gamesCount: Int {
         get {
             userDefaults.integer(forKey: Keys.gamesCount.rawValue)
@@ -70,13 +53,16 @@ extension StatisticServiceImpl: StatisticService {
     
     var bestGame: BestGame? {
         get {
-            guard let data = userDefaults.data(forKey: Keys.bestGame.rawValue),
-                  let bestGame = try? decoder.decode(BestGame.self, from: data) else { return nil}
-            return bestGame
+            let correct = userDefaults.integer(forKey: Keys.correct.rawValue)
+            let total = userDefaults.integer(forKey: Keys.total.rawValue)
+            let date = userDefaults.object(forKey: Keys.date.rawValue) as? Date ?? Date()
+            return .init(correct: correct, total: total, date: date)
         }
         set {
-            let data = try? encoder.encode(newValue)
-            userDefaults.set(data, forKey: Keys.bestGame.rawValue)
+            guard let newValue else { return }
+            userDefaults.set(newValue, forKey: Keys.correct.rawValue)
+            userDefaults.set(newValue, forKey: Keys.total.rawValue)
+            userDefaults.set(newValue, forKey: Keys.date.rawValue)
         }
     }
     
@@ -89,8 +75,7 @@ extension StatisticServiceImpl: StatisticService {
         self.total += total
         self.gamesCount += 1
         
-        let date = dateProvider()
-        let currentBestGame = BestGame(correct: correct, total: total, date: date)
+        let currentBestGame = BestGame(correct: correct, total: total, date: Date())
         
         if let previousBestGame = bestGame {
             if currentBestGame > previousBestGame {
