@@ -11,7 +11,6 @@ protocol Movie {
     var title: String { get }
     var rating: String { get }
     var imageURL: URL { get }
-    
     var resizedImageURL: URL { get }
 }
 
@@ -19,8 +18,6 @@ protocol Movie {
 struct MostPopularMovies: Codable {
     let errorMessage: String
     let items: [MostPopularMovie]
-//    var resizedImageURL: URL
-//    let rating: String
 }
 
 struct MostPopularMovie: Codable, Movie {
@@ -43,8 +40,8 @@ struct MostPopularMovie: Codable, Movie {
     }
     
     private enum CodingKeys: String, CodingKey {
-    case title = "fullTitle"
-    case rating = "imDbRating"
-    case imageURL = "image"
+        case title = "fullTitle"
+        case rating = "imDbRating"
+        case imageURL = "image"
     }
 }

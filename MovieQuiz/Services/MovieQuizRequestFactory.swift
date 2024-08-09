@@ -31,7 +31,6 @@ class MovieQuizRequestFactoryImpl: MovieQuizRequestFactory {
                 URLQueryItem(name: "limit", value: "10"),
                 URLQueryItem(name: "typeNumber", value: "1"),
                 URLQueryItem(name: "top250", value: "!null")
-            
             ]
             guard let url = components.url else {
                 return .failure(NetworkError.brokenRequest)
