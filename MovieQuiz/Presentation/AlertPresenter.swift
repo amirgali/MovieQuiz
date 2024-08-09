@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol AlertPresenter {
+protocol AlertPresenter: AnyObject {
     func show(alertModel: AlertModel)
 }
 
-final class AlertPresenterImpl {
+final class AlertPresenterImpl: AlertPresenter {
     weak var viewController: UIViewController?
     
     init(viewController: UIViewController? = nil) {
@@ -19,7 +19,7 @@ final class AlertPresenterImpl {
     }
 }
 
-extension AlertPresenterImpl: AlertPresenter {
+extension AlertPresenterImpl {
     func show(alertModel: AlertModel) {
         let alert = UIAlertController(
             title: alertModel.title,
@@ -28,7 +28,6 @@ extension AlertPresenterImpl: AlertPresenter {
         )
         
         let action = UIAlertAction(title: alertModel.buttonText, style: .default) { _ in
-            
             alertModel.buttonAction()
         }
         

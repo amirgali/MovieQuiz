@@ -103,6 +103,10 @@
                                     <constraint firstItem="Nm9-me-rcf" firstAttribute="top" secondItem="aea-PP-PJk" secondAttribute="bottom" constant="20" id="6NU-yx-aBP"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="rF1-BZ-GCq">
+                                <rect key="frame" x="20" y="425" width="353" height="1.6666666666666288"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
@@ -119,6 +123,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="rF1-BZ-GCq" id="3e4-1v-kLx"/>
                         <outlet property="counterLabel" destination="Eh0-lO-AKz" id="t6k-xe-cjG"/>
                         <outlet property="imageView" destination="Kjs-ZQ-MQB" id="fHI-sr-9EU"/>
                         <outlet property="noButton" destination="ChR-lz-mMe" id="DQu-M6-9QC"/>
