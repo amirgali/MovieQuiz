@@ -8,11 +8,26 @@
 import Foundation
 
 protocol MoviesLoading {
-    func loadMovies(handler: @escaping (Result<[MostPopularMovies], Error>) -> Void)
+    func loadMovies(handler: @escaping (Result<[Movie], Error>) -> Void)
 }
 
 enum ApiType {
     case imdb, kp
+}
+
+protocol MoviesQuizResponceHandler {
+    func handleResponce(apiType: ApiType, data: Data) throws -> [Movie]
+}
+
+class MovieQuizResponceHandlerImpl: MoviesQuizResponceHandler {
+    func handleResponce(apiType: ApiType, data: Data) throws -> [any Movie] {
+        switch apiType {
+        case .imdb:
+            return try JSONDecoder().decode(MostPopularMovies.self, from: data).items
+        case .kp:
+            return try JSONDecoder().decode(KPResponce.self, from: data).docs
+        }
+    }
 }
 
 class MoviesLoader: MoviesLoading {
@@ -21,16 +36,16 @@ class MoviesLoader: MoviesLoading {
     private let apiType: ApiType = .imdb
     
     private lazy var requestFactory = MovieQuizRequestFactoryImpl()
+    private lazy var responceHandler = MovieQuizResponceHandlerImpl()
     
-    
-    func loadMovies(handler: @escaping (Result<[MostPopularMovies], Error>) -> Void) {
+    func loadMovies(handler: @escaping (Result<[Movie], Error>) -> Void) {
         switch requestFactory.constructRequest(apiType: apiType) {
         case .success(let request):
-            networkClient.fetch(request: request) { result in
+            networkClient.fetch(request: request) { [unowned self] result in
                 switch result {
                 case .success(let data):
                     do {
-                        let mostPopularMovies = try JSONDecoder().decode([MostPopularMovies].self, from: data)
+                        let mostPopularMovies = try responceHandler.handleResponce(apiType: apiType, data: data)
                         handler(.success(mostPopularMovies))
                     } catch {
                         handler(.failure(error))
@@ -41,7 +56,6 @@ class MoviesLoader: MoviesLoading {
             }
         case .failure(let error):
             handler(.failure(error))
-            
         }
     }
     

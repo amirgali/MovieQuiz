@@ -42,7 +42,13 @@ struct NetworkClient: NetworkRouting {
         
         task.resume()
     }
-    
-    
+}
 
+extension Data {
+    func printPrettyJSON() {
+        if let json = try? JSONSerialization.jsonObject(with: self, options: .mutableContainers),
+           let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
+            print(String(decoding: jsonData, as: UTF8.self))
+        }
+    }
 }

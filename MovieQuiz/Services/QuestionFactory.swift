@@ -24,7 +24,7 @@ final class  QuestionFactoryImpl {
     
     private weak var delegate: QuestionFactoryDelegate?
     private let moviesLoader: MoviesLoading
-    private var movies: [any Movie] = []
+    private var movies: [Movie] = []
 //    private var movies: [MostPopularMovies] = []
     
     // MARK: - Init
@@ -73,7 +73,7 @@ final class  QuestionFactoryImpl {
                 guard let self = self else { return }
                 switch result {
                 case .success(let mostPopularMovies):
-                    self.movies = mostPopularMovies.map { $0 as! any Movie as any Movie } // сохраняем фильм в нашу новую переменную
+                    self.movies = mostPopularMovies // сохраняем фильм в нашу новую переменную
                     self.delegate?.didLoadDataFromServer() // сообщаем, что данные загрузились
                 case .failure(let error):
                     self.delegate?.didFailToLoadData(with: error) // сообщаем об ошибке нашему MovieQuizViewController

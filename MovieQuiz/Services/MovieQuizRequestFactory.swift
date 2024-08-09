@@ -20,6 +20,7 @@ class MovieQuizRequestFactoryImpl: MovieQuizRequestFactory {
             }
             return .success(URLRequest(url: url))
         case .kp:
+            
             var components = URLComponents(string: "https://api.kinopoisk.dev/v1.3/movie")!
             
             components.queryItems = [

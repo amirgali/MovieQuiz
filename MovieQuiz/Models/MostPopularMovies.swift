@@ -13,15 +13,14 @@ protocol Movie {
     var imageURL: URL { get }
     
     var resizedImageURL: URL { get }
-    
 }
 
 
 struct MostPopularMovies: Codable {
     let errorMessage: String
     let items: [MostPopularMovie]
-    var resizedImageURL: URL
-    let rating: String
+//    var resizedImageURL: URL
+//    let rating: String
 }
 
 struct MostPopularMovie: Codable, Movie {
