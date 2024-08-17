@@ -77,12 +77,20 @@ extension StatisticServiceImpl: StatisticService {
         
         let currentBestGame = BestGame(correct: correct, total: total, date: Date())
         
-        if let previousBestGame = bestGame {
-            if currentBestGame > previousBestGame {
+        if currentBestGame.isBetterThan(bestGame!) {
                 bestGame = currentBestGame
-            }
-        } else {
-            bestGame = currentBestGame
         }
+        
+//        if let previousBestGame = bestGame {
+//            if currentBestGame > previousBestGame {
+//                bestGame = currentBestGame
+//            }
+//        } else {
+//            bestGame = currentBestGame
+//        }
+//        guard bestGame != nil else { return }
+//        if currentBestGame > bestGame {
+//            bestGame = currentBestGame
+//        }
     }
 }

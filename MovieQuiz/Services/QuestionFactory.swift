@@ -25,7 +25,6 @@ final class  QuestionFactoryImpl {
     private weak var delegate: QuestionFactoryDelegate?
     private let moviesLoader: MoviesLoading
     private var movies: [Movie] = []
-    //    private var movies: [MostPopularMovies] = []
     
     // MARK: - Init
     

@@ -124,7 +124,7 @@ final class MovieQuizViewController: UIViewController {
         let alertModel = AlertModel(
             title: "Этот раунд окончен!",
             message: makeResultMessage(),
-            buttonText: "OK",
+            buttonText: "Сыграть еще раз!",
             buttonAction: { [weak self] in
                 self?.currentQuestionIndex = 0
                 self?.correctAnswer = 0
@@ -155,12 +155,10 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func showLoadingIndicator() {
-        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     
     private func hideLoadingIndicator() {
-        activityIndicator.isHidden = true
         activityIndicator.startAnimating()
     }
     

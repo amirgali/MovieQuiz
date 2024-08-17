@@ -32,11 +32,15 @@ class MovieQuizResponceHandlerImpl: MoviesQuizResponceHandler {
 
 class MoviesLoader: MoviesLoading {
     // MARK: - NetworkClient
-    private let networkClient = NetworkClient()
+    private let networkClient: NetworkRouting
     private let apiType: ApiType = .imdb
     
     private lazy var requestFactory = MovieQuizRequestFactoryImpl()
     private lazy var responceHandler = MovieQuizResponceHandlerImpl()
+    
+    init(networkClient: NetworkRouting = NetworkClient()) {
+         self.networkClient = networkClient
+     }
     
     func loadMovies(handler: @escaping (Result<[Movie], Error>) -> Void) {
         switch requestFactory.constructRequest(apiType: apiType) {

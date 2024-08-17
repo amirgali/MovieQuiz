@@ -11,7 +11,7 @@ protocol MovieQuizRequestFactory {
     func constructRequest(apiType: ApiType) -> Result<URLRequest, Error>
 }
 
-class MovieQuizRequestFactoryImpl: MovieQuizRequestFactory {
+final class MovieQuizRequestFactoryImpl: MovieQuizRequestFactory {
     func constructRequest(apiType: ApiType) -> Result<URLRequest, Error> {
         switch apiType {
         case .imdb:
