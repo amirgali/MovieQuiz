@@ -10,7 +10,7 @@ import Foundation
 protocol StatisticService {
     var totalAccuracy: Double { get }
     var gamesCount: Int { get }
-    var bestGame: BestGame? { get }
+    var bestGame: BestGame { get }
     
     func store(correct: Int, total: Int)
 }
@@ -51,18 +51,22 @@ extension StatisticServiceImpl: StatisticService {
         }
     }
     
-    var bestGame: BestGame? {
+    var bestGame: BestGame {
         get {
-            let correct = userDefaults.integer(forKey: Keys.correct.rawValue)
-            let total = userDefaults.integer(forKey: Keys.total.rawValue)
-            let date = userDefaults.object(forKey: Keys.date.rawValue) as? Date ?? Date()
-            return .init(correct: correct, total: total, date: date)
+            guard let data = userDefaults.data(forKey: Keys.bestGame.rawValue),
+                  let bestGame = try? JSONDecoder().decode(BestGame.self, from: data) else {
+                return .init(correct: correct, total: total, date: Date())
+            }
+            
+            return bestGame
         }
         set {
-            guard let newValue else { return }
-            userDefaults.set(newValue, forKey: Keys.correct.rawValue)
-            userDefaults.set(newValue, forKey: Keys.total.rawValue)
-            userDefaults.set(newValue, forKey: Keys.date.rawValue)
+            guard let data = try? JSONEncoder().encode(newValue) else {
+                print("Невозможно сохранить результат")
+                return
+            }
+            
+            userDefaults.set(data, forKey: Keys.bestGame.rawValue)
         }
     }
     
@@ -77,7 +81,7 @@ extension StatisticServiceImpl: StatisticService {
         
         let currentBestGame = BestGame(correct: correct, total: total, date: Date())
         
-        if currentBestGame.isBetterThan(bestGame!) {
+        if currentBestGame.isBetterThan(bestGame) {
                 bestGame = currentBestGame
         }
         

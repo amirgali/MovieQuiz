@@ -13,3 +13,9 @@ struct AlertModel {
     let buttonText: String
     let buttonAction: () -> Void
 }
+
+struct errorAlert {
+    let title: String?
+    var message: String?
+    let buttonText: String?
+}

@@ -7,20 +7,21 @@
 
 import UIKit
 
-protocol AlertPresenter: AnyObject {
-    func show(alertModel: AlertModel)
+protocol AlertPresenterProtocol: AnyObject {
+    func showAlert(alertModel: AlertModel)
+    func showErrorAlert(errorAlert: errorAlert) 
 }
 
-final class AlertPresenterImpl: AlertPresenter {
-    weak var viewController: UIViewController?
+final class AlertPresenterImpl: AlertPresenterProtocol {
     
-    init(viewController: UIViewController? = nil) {
-        self.viewController = viewController
+    weak var delegate: UIViewController?
+    
+    init(delegate: UIViewController?) {
+        self.delegate = delegate
     }
-}
-
-extension AlertPresenterImpl {
-    func show(alertModel: AlertModel) {
+    
+    func showAlert(alertModel: AlertModel) {
+        
         let alert = UIAlertController(
             title: alertModel.title,
             message: alertModel.message,
@@ -32,6 +33,19 @@ extension AlertPresenterImpl {
         }
         
         alert.addAction(action)
-        viewController?.present(alert, animated: true)
+        delegate?.present(alert, animated: true, completion: nil)
+    }
+    
+    func showErrorAlert(errorAlert: errorAlert) {
+        let alert = UIAlertController(
+            title: errorAlert.title,
+            message: errorAlert.message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: errorAlert.buttonText, style: .default) { _ in
+        }
+        alert.addAction(action)
+        delegate?.present(alert, animated: true, completion: nil)
+        alert.view.accessibilityIdentifier = "Alert"
     }
 }

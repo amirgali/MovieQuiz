@@ -7,24 +7,16 @@
 
 import UIKit
 
-protocol QuestionFactoryDelegate: AnyObject {
-    func didReceiveQuestion(_ question: QuizQuestion)
-    func didLoadDataFromServer() // сообщение об успешной загрузке
-    func didFailToLoadData(with error: Error) // сообщение об ошибке загрузки
-}
 
-protocol QuestionFactory {
-    func requestNextQuestion()
-    func loadData() // Добавляем метод loadData в протокол
-}
-
-final class  QuestionFactoryImpl {
+final class  QuestionFactoryImpl: QuestionFactoryProtocol {
     
     // MARK: - Properties
     
     private weak var delegate: QuestionFactoryDelegate?
     private let moviesLoader: MoviesLoading
     private var movies: [Movie] = []
+//    private let presenter = MovieQuizPresenter()
+
     
     // MARK: - Init
     
@@ -59,7 +51,7 @@ final class  QuestionFactoryImpl {
             
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.delegate?.didReceiveQuestion(question)
+                self.delegate?.didReceiveNextQuestion(question: question)
             }
         }
     }
@@ -78,9 +70,5 @@ final class  QuestionFactoryImpl {
             }
         }
     }
-}
-
-extension QuestionFactoryImpl: QuestionFactory {
-    
 }
 
