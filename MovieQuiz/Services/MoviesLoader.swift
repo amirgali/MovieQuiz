@@ -38,7 +38,7 @@ class MoviesLoader: MoviesLoading {
     private lazy var requestFactory = MovieQuizRequestFactoryImpl()
     private lazy var responceHandler = MovieQuizResponceHandlerImpl()
     
-    init(networkClient: NetworkRouting = NetworkClient()) {
+    init(networkClient: NetworkRouting = NetworkClient() as! NetworkRouting) {
          self.networkClient = networkClient
      }
     

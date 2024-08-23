@@ -7,16 +7,13 @@
 
 import Foundation
 
-protocol NetworkRouting {
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void)
-}
-
-enum NetworkError: Error {
-    case codeError, brokenRequest
-}
 
 /// Отвечает за загрузку данных по URL
-struct NetworkClient: NetworkRouting {
+struct NetworkClient {
+    
+    private enum NetworkError: Error {
+        case codeError, brokenRequest
+    }
     
     func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
         

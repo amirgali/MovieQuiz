@@ -27,24 +27,8 @@ final class MovieQuizViewController: UIViewController {
         presenter = MovieQuizPresenter(viewController: self)
         presenter.viewController = self
         showLoadingIndicator()
-        
-        //        questionFactory = QuestionFactoryImpl(moviesLoader: MoviesLoader(), delegate: self)
-        //        questionFactory?.loadData()
-    }
     
-    //    // MARK: - QuestionFactoryDelegate
-    //    func didReceiveNextQuestion(question: QuizQuestion?) {
-    //        guard let question = question else {
-    //            return
-    //        }
-    //
-    //        presenter.didReceiveQuestion(question)
-    //        let viewModel = presenter.convert(model: question)
-    //
-    //        DispatchQueue.main.async { [weak self] in
-    //            self?.show(quiz: viewModel)
-    //        }
-    //    }
+    }
     
     // MARK: - Actions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
@@ -65,17 +49,6 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.cornerRadius = 20
         textLabel.text = step.text
         counterLabel.text = step.questionNumber
-        //
-        //        if let statisticService = statisticService {
-        //            statisticService.store(correct: presenter.correctAnswers, total: presenter.questionsAmount)
-        //
-        //            let currentGameResultLine = "Ваш результат: \(presenter.correctAnswers)\\\(presenter.questionsAmount)"
-        //        }
-        //        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
-        //
-        //            self.presenter.restartGame()
-        //
-        //        }
     }
     
     
@@ -122,18 +95,3 @@ final class MovieQuizViewController: UIViewController {
         presenter.restartGame()
     }
 }
-
-// MARK: - Extension
-
-//extension MovieQuizViewController: QuestionFactoryDelegate {
-//    func didLoadDataFromServer() {
-//        activityIndicator.isHidden = true
-//        questionFactory?.requestNextQuestion()
-//    }
-
-//    func didFailToLoadData(with error: any Error) {
-//        showNetworkError(message: error.localizedDescription) // возьмем в качестве сообщения описание ошибки
-//    }
-
-
-//}

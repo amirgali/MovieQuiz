@@ -8,15 +8,14 @@
 import UIKit
 
 final class MovieQuizPresenter: QuestionFactoryDelegate {
-    
-    
+ 
     let questionsAmount: Int = 10
-    private var currentQuestionIndex = 0
     var currentQuestion: QuizQuestion?
+    var correctAnswers: Int = 0
     weak var viewController: MovieQuizViewController?
+    private var currentQuestionIndex = 0
     private var questionFactory: QuestionFactoryProtocol?
     private let statisticService: StatisticService!
-    var correctAnswers: Int = 0
     
     init(viewController: MovieQuizViewController) {
         self.viewController = viewController
@@ -48,19 +47,15 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         }
     }
     
-    func isLastQuestion() -> Bool {
+    private func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
     
-    //    func resetQuestionIndex() {
-    //        currentQuestionIndex = 0
-    //    }
-    
-    func switchToNextQuestion() {
+    private func switchToNextQuestion() {
         currentQuestionIndex += 1
     }
     
-    func convert(model: QuizQuestion) -> QuizStepViewModel {
+    private func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(
             image: UIImage(data: model.image) ?? UIImage(),
             text: model.text,
