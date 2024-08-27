@@ -10,7 +10,7 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
     
-    private var correctAnswer = 0
+//    private var correctAnswer = 0
     
     //    private var questionFactory: QuestionFactory?
     private var alert: AlertModel?
@@ -75,12 +75,20 @@ final class MovieQuizViewController: UIViewController {
         noButton.isEnabled = false
     }
     
+    func resetBorderAndButtons() {
+        imageView.layer.borderColor = UIColor.ypBlack.cgColor
+        yesButton.isEnabled = true
+        noButton.isEnabled = true
+    }
+    
     func showLoadingIndicator() {
-        activityIndicator.isHidden = true
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
     }
     
     func hideLoadingIndicator() {
-        activityIndicator.startAnimating()
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
     }
     
     func showNetworkError(message: String) {

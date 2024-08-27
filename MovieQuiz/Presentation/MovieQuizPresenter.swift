@@ -75,12 +75,22 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         if isCorrectAnswer {
             correctAnswers += 1
         }
+        showAnswerResult(isCorrect: isCorrectAnswer)
+        viewController?.showLoadingIndicator()
     }
+    
+//    func didAnswer (isYes: Bool) {
+//        guard let currentQuestion = currentQuestion else {
+//            return
+//        }
+//        let answer = isYes
+//        showAnswerResult(isCorrect: answer == currentQuestion.correctAnswer)
+//    }
     
     // приватный метод, который меняет цвет рамки
     // принимает на вход булевое значение и ничего не возвращает
     func showAnswerResult(isCorrect: Bool) {
-        didAnswer(isCorrectAnswer: isCorrect)
+//        didAnswer(isCorrectAnswer: isCorrect)
         
         viewController?.highlightImageBorder(isCorrectAnswer: isCorrect)
         
@@ -103,11 +113,14 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     // приватный метод, который содержит логику перехода в один из сценариев
     // метод ничего не принимает и ничего не возвращает
     func showNextQuestionOrResults() {
+        viewController?.hideLoadingIndicator()
         if self.isLastQuestion() {
             viewController?.showResults()
+            viewController?.resetBorderAndButtons()
         } else {
             self.switchToNextQuestion()
             // идём в состояние "Вопрос показан"
+            viewController?.resetBorderAndButtons()
             questionFactory?.requestNextQuestion()
         }
     }

@@ -38,25 +38,29 @@ class MoviesLoader: MoviesLoading {
     private lazy var requestFactory = MovieQuizRequestFactoryImpl()
     private lazy var responceHandler = MovieQuizResponceHandlerImpl()
     
-    init(networkClient: NetworkRouting = NetworkClient() as! NetworkRouting) {
-         self.networkClient = networkClient
-     }
+    init(networkClient: NetworkRouting = NetworkClient()) {
+        self.networkClient = networkClient
+    }
     
     func loadMovies(handler: @escaping (Result<[Movie], Error>) -> Void) {
         switch requestFactory.constructRequest(apiType: apiType) {
         case .success(let request):
-            networkClient.fetch(request: request) { [unowned self] result in
-                switch result {
-                case .success(let data):
-                    do {
-                        let mostPopularMovies = try responceHandler.handleResponce(apiType: apiType, data: data)
-                        handler(.success(mostPopularMovies))
-                    } catch {
+            if let url = request.url {
+                networkClient.fetch(request: request) { [unowned self] result in
+                    switch result {
+                    case .success(let data):
+                        do {
+                            let mostPopularMovies = try responceHandler.handleResponce(apiType: apiType, data: data)
+                            handler(.success(mostPopularMovies))
+                        } catch {
+                            handler(.failure(error))
+                        }
+                    case .failure(let error):
                         handler(.failure(error))
                     }
-                case .failure(let error):
-                    handler(.failure(error))
                 }
+            } else {
+                handler(.failure(NetworkError.brokenRequest))
             }
         case .failure(let error):
             handler(.failure(error))

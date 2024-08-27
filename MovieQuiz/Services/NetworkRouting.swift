@@ -8,43 +8,37 @@
 import Foundation
 
 protocol NetworkRouting {
-    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
+    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void)
 }
 
-struct NetworkClientInRouting: NetworkRouting {
+struct NetworkClientInRouting {
     
-    private enum NetworkError: Error {
-        case codeError
-        case noData
-    }
     
-    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
-        let request = URLRequest(url: url)
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // Проверяем, пришла ли ошибка
-            if let error = error {
-                handler(.failure(error))
-                return
-            }
-            
-            // Проверяем, что пришёл успешный код ответа
-            if let response = response as? HTTPURLResponse,
-               response.statusCode < 200 && response.statusCode >= 300 {
-                handler(.failure(NetworkError.codeError))
-                return
-            }
-            
-            // Возвращаем данные
-            guard let data = data else {
-                handler(.failure(NetworkError.noData))
-                return
-            }
-            handler(.success(data))
-        }
-        
-        task.resume()
-    }
+    
+//    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
+//        let request = URLRequest(url: url)
+//        
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            // Проверяем, пришла ли ошибка
+//            if let error = error {
+//                handler(.failure(error))
+//                return
+//            }
+//            // Проверяем, что пришёл успешный код ответа
+//            if let response = response as? HTTPURLResponse,
+//               response.statusCode < 200 && response.statusCode >= 300 {
+//                handler(.failure(NetworkError.codeError))
+//                return
+//            }
+//            // Возвращаем данные
+//            guard let data = data else {
+//                handler(.failure(NetworkError.brokenRequest))
+//                return
+//            }
+//            handler(.success(data))
+//        }
+//        task.resume()
+//    }
 }
 
 struct StubNetworkClient: NetworkRouting {
@@ -55,7 +49,7 @@ struct StubNetworkClient: NetworkRouting {
     
     let emulateError: Bool // этот параметр нужен, чтобы заглушка эмулировала либо ошибку сети, либо успешный ответ
     
-    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
+    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
         if emulateError {
             handler(.failure(TestError.test))
         } else {
