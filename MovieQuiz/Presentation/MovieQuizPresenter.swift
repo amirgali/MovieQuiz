@@ -12,12 +12,12 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     let questionsAmount: Int = 10
     var currentQuestion: QuizQuestion?
     var correctAnswers: Int = 0
-    weak var viewController: MovieQuizViewController?
+    weak var viewController: MovieQuizViewControllerProtocol?
     private var currentQuestionIndex = 0
     private var questionFactory: QuestionFactoryProtocol?
     private let statisticService: StatisticService!
     
-    init(viewController: MovieQuizViewController) {
+    init(viewController: MovieQuizViewControllerProtocol) {
         self.viewController = viewController
         statisticService = StatisticServiceImpl()
         questionFactory = QuestionFactoryImpl(moviesLoader: MoviesLoader(), delegate: self)
@@ -55,7 +55,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         currentQuestionIndex += 1
     }
     
-    private func convert(model: QuizQuestion) -> QuizStepViewModel {
+    func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(
             image: UIImage(data: model.image) ?? UIImage(),
             text: model.text,
@@ -79,18 +79,9 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         viewController?.showLoadingIndicator()
     }
     
-//    func didAnswer (isYes: Bool) {
-//        guard let currentQuestion = currentQuestion else {
-//            return
-//        }
-//        let answer = isYes
-//        showAnswerResult(isCorrect: answer == currentQuestion.correctAnswer)
-//    }
-    
     // приватный метод, который меняет цвет рамки
     // принимает на вход булевое значение и ничего не возвращает
     func showAnswerResult(isCorrect: Bool) {
-//        didAnswer(isCorrectAnswer: isCorrect)
         
         viewController?.highlightImageBorder(isCorrectAnswer: isCorrect)
         
@@ -149,3 +140,5 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         questionFactory?.requestNextQuestion()
     }
 }
+
+

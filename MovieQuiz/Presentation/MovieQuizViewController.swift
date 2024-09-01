@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     
     @IBOutlet private var counterLabel: UILabel!
     @IBOutlet private var imageView: UIImageView!
@@ -9,10 +9,6 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var noButton: UIButton!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
-    
-//    private var correctAnswer = 0
-    
-    //    private var questionFactory: QuestionFactory?
     private var alert: AlertModel?
     private var alertPresenter: AlertPresenterImpl?
     private var statisticService: StatisticService?
@@ -27,7 +23,6 @@ final class MovieQuizViewController: UIViewController {
         presenter = MovieQuizPresenter(viewController: self)
         presenter.viewController = self
         showLoadingIndicator()
-    
     }
     
     // MARK: - Actions
@@ -54,7 +49,6 @@ final class MovieQuizViewController: UIViewController {
     
     
     func showResults() {
-//        statisticService?.store(correct: correctAnswer, total: presenter.questionsAmount)
         
         let alertModel = AlertModel(
             title: "Этот раунд окончен!",
@@ -102,4 +96,16 @@ final class MovieQuizViewController: UIViewController {
         alertPresenter?.showErrorAlert(errorAlert: errorAlert)
         presenter.restartGame()
     }
+}
+
+protocol MovieQuizViewControllerProtocol: AnyObject {
+    func show(quiz step: QuizStepViewModel)
+    func showResults()
+    func resetBorderAndButtons()
+    func highlightImageBorder(isCorrectAnswer: Bool)
+    
+    func showLoadingIndicator()
+    func hideLoadingIndicator()
+    
+    func showNetworkError(message: String)
 }

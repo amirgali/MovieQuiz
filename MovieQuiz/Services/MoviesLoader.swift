@@ -45,7 +45,7 @@ class MoviesLoader: MoviesLoading {
     func loadMovies(handler: @escaping (Result<[Movie], Error>) -> Void) {
         switch requestFactory.constructRequest(apiType: apiType) {
         case .success(let request):
-            if let url = request.url {
+            if request.url != nil {
                 networkClient.fetch(request: request) { [unowned self] result in
                     switch result {
                     case .success(let data):
